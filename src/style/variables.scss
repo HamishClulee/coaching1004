@@ -31,3 +31,12 @@ $h4-fontsize: 2rem !default;
 $h5-fontsize: 1.4rem !default;
 $h6-fontsize: 1rem !default;
 
+:export {
+    red: $a-red;
+    red-light: $a-red-light;
+    blue: $a-blue;
+    blue-light: $a-blue-light;
+    green: $a-green;
+    green-light: $a-green-light;
+}
+

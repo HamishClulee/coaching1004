@@ -1,7 +1,11 @@
 <template>
     <div id="god-div">
         <navbar></navbar>
-        <router-view></router-view>
+
+        <globalstats v-bind="{ global }"></globalstats>
+
+        <countriestable v-bind="{ countries }"></countriestable>
+
         <transition name="slide-fade" mode="out-in">
             <adurotoast
                 v-if="showToast"
@@ -15,11 +19,16 @@
 import { EventBus, MESSAGES } from './EventBus.js'
 import adurotoast from './components/adurotoast'
 import navbar from './components/navbar'
+import globalstats from './components/globalstats'
+import countriestable from './components/countriestable'
+import { mapActions } from 'vuex'
 export default {
     name: 'App',
     components: {
         adurotoast,
         navbar,
+        globalstats,
+        countriestable,
     },
     data() {
         return {
@@ -28,7 +37,16 @@ export default {
             bgColor: '',
             textColor: '',
             timeToLive: 0,
+            global: {},
+            countries: [],
         }
+    },
+    created() {
+        this.init()
+        this.$API.summary().then(res => {
+            this.global = res.data.Global
+            this.countries = res.data.Countries
+        })
     },
     mounted() {
         EventBus.$on(MESSAGES, (payload) => {
@@ -38,6 +56,9 @@ export default {
             this.textColor = payload.textColor || ''
             this.timeToLive = payload.timeToLive || 0
         })
+    },
+    methods: {
+        ...mapActions(['init']),
     },
 }
 </script>
