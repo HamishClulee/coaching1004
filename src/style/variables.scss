@@ -4,6 +4,7 @@ $a-red: #E61C0A;
 $a-blue: #1674CD;
 $a-green: #04843D;
 $font: #454545;
+$a-white: #F4F4F4;
 
 $dark-gray: #696969;
 $medium-gray: #A9A9A9;
@@ -33,10 +34,11 @@ $h6-fontsize: 1rem !default;
 
 :export {
     red: $a-red;
-    red-light: $a-red-light;
+    red_light: $a-red-light;
     blue: $a-blue;
-    blue-light: $a-blue-light;
+    blue_light: $a-blue-light;
     green: $a-green;
-    green-light: $a-green-light;
+    green_light: $a-green-light;
+    a_white: $a-white;
 }
 

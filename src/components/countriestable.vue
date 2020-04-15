@@ -4,20 +4,44 @@
             <thead>
                 <tr>
                     <th @click="active = sortedByCountry">Country</th>
-                    <th @click="active = sortedByCases">Cases</th>
-                    <th @click="active = sortedByDeaths">Deaths</th>
+                    <th @click="active = sortedByCases">
+                        <span class="dual-item-row">
+                            Active Cases (
+                                <span class="second-item">+new</span>
+                        )</span>    
+                    </th>
+                    <th @click="active = sortedByCases">Recovered</th>
+                    <th @click="active = sortedByDeaths">
+                        <span class="dual-item-row">
+                            Deaths (
+                                <span class="second-item">+new</span>
+                        )</span>
+                    </th>
+                    <th @click="active = sortedByDeaths">Tests</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(country, index) in active" :key="index">
+                <tr v-for="(country, index) in getGlobal" :key="index">
                     <td>
-                        {{ country.Country }}
+                        {{ country.country }}
                     </td>
                     <td>
-                        {{ country.TotalConfirmed }}
+                        <span class="dual-item-row">
+                            {{ country.cases.active | commas }}
+                            (<span class="second-item">{{ country.cases.new }}</span>)
+                        </span>
                     </td>
                     <td>
-                        {{ country.TotalDeaths }}
+                        {{ country.cases.recovered | commas }}
+                    </td>
+                    <td>
+                        <span class="dual-item-row">
+                            {{ country.deaths.total | commas }}
+                            (<span class="second-item">{{ country.deaths.new }}</span>)
+                        </span> 
+                    </td>
+                    <td>
+                        {{ country.tests.total | commas }}
                     </td>
                 </tr>
             </tbody>
@@ -26,14 +50,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { formatNumberWithCommas } from '../util'
 export default {
     name: 'countriestable',
-    props: {
-        countries: {
-            type: Array,
-            required: true,
-        },
-    },
     data() {
         return {
             active: [],
@@ -41,19 +61,31 @@ export default {
     },
     methods: {
         sortnumeric(sortbykey) {
-            return this.countries.sort((a, b) => {
+            return this.getCountries.sort((a, b) => {
                 return b[sortbykey] - a[sortbykey]
             })
         },
         sortalphabetic(sortbykey) {
-            return this.countries.sort((a, b) => {
+            return this.getCountries.sort((a, b) => {
                 if (a[sortbykey] < b[sortbykey]) return -1
                 if (a[sortbykey] > b[sortbykey]) return 1
                 return 0
             })
         },
     },
+    filters: {
+        commas: function (value) {
+            return formatNumberWithCommas(value)
+        },
+        removePlus: function(value) {
+            return value.replace('+', '')
+        },
+        addPlus: function(value) {
+            return `+${value}`
+        },
+    },
     computed: {
+        ...mapGetters(['getGlobal']),
         sortedByCountry() {
             return this.sortalphabetic('Country')
         },
@@ -65,10 +97,8 @@ export default {
         },
     },
     watch: {
-        countries: function(nue, old) {
-            if (old.length === 0 && nue.length > 0) {
-                this.active = this.countries
-            }
+        getCountries: function() {
+            this.active = this.getCountries
         },
     },
 }
@@ -83,6 +113,15 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.dual-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .second-item {
+        color: $a-green;
+        font-size: 70%;
+    }
 }
 table {
   font-family: arial, sans-serif;

@@ -4,7 +4,7 @@
 
         <globalstats v-bind="{ global }"></globalstats>
 
-        <countriestable v-bind="{ countries }"></countriestable>
+        <countriestable></countriestable>
 
         <transition name="slide-fade" mode="out-in">
             <adurotoast
@@ -43,10 +43,10 @@ export default {
     },
     created() {
         this.init()
-        this.$API.summary().then(res => {
-            this.global = res.data.Global
-            this.countries = res.data.Countries
-        })
+        // this.$API.summary().then(res => {
+        //     this.global = res.data.Global
+        //     this.countries = res.data.Countries
+        // })
     },
     mounted() {
         EventBus.$on(MESSAGES, (payload) => {

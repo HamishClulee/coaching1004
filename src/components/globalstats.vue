@@ -1,22 +1,24 @@
 <template>
     <section class="global-stats-container">
-        <div class="stat-item" v-for="(val, key, index) in global" :key="val" :style="{ background: variablesToArray[index] }">
-            {{ key }} : {{ val }}
+        <div class="stat-item" v-for="(val, key, index) in getTileData" :key="index" :style="{ background: variablesToArray[index] }">
+            {{ key }} : {{ formattedWithCommas(val) }}
         </div>
     </section>
 </template>
 
 <script>
 import variables from '../style/variables.scss'
+import { formatNumberWithCommas } from '../util/index'
+import { mapGetters } from 'vuex'
 export default {
     name: 'globalstats',
-    props: {
-        global: {
-            type: Object,
-            required: true,
+    methods: {
+        formattedWithCommas(val) {
+            return formatNumberWithCommas(val)
         },
     },
     computed: {
+        ...mapGetters(['getTileData']),
         variablesToArray() {
             return Object.keys(variables).map(key => {
                 return variables[key]
@@ -38,7 +40,7 @@ export default {
 .stat-item {
     border-radius: 3px;
     margin: 2px;
-    width: 32%;
+    width: 32.95%;
     padding: 20px 0;
     display: flex;
     justify-content: center;
