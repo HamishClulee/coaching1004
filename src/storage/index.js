@@ -7,7 +7,7 @@ export const saveData = (storeName, data) => {
 }
 
 export const doesDataExist = (storeName) => {
-    return localStorage.getItem(storeName) && localStorage.getItem(storeName).length > 0
+    return !!localStorage.getItem(storeName)
 }
 
 export const getData = (storeName) => {

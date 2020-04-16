@@ -57,7 +57,7 @@ export default {
         position: relative;
         top: 20px;
         right: 20px;
-        animation: move 6.5s linear infinite;
+        animation: move 6.9s linear infinite;
     }
 }
 @keyframes move {

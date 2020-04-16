@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { saveData, getData, doesDataExist, TILE_STORE, GLOBAL_STORE } from '../storage'
+import { saveData, TILE_STORE, GLOBAL_STORE } from '../storage'
 import { buildTileData } from '../util/data'
-// import { EventBus, MESSAGES, FIVE_SECONDS } from '../EventBus'
 
 import CoronaAPI from '../api'
 const CAPI = new CoronaAPI()
 
-const ADD_TILE_DATA = 'ADD_TILE_DATA'
-const ADD_GLOBAL = 'ADD_GLOBAL'
+export const ADD_TILE_DATA = 'ADD_TILE_DATA'
+export const ADD_GLOBAL = 'ADD_GLOBAL'
 
 Vue.use(Vuex)
 
@@ -28,13 +27,6 @@ export default new Vuex.Store({
     actions: {
         init({ commit }) {
 
-            // syncronous
-            if (doesDataExist(TILE_STORE) && doesDataExist(GLOBAL_STORE)) {
-
-                commit(ADD_TILE_DATA, getData(TILE_STORE))
-                commit(ADD_GLOBAL, getData(GLOBAL_STORE))
-            }
-
             // async
             CAPI.statistics().then(res => {
                 const data = res.data.response
@@ -43,7 +35,7 @@ export default new Vuex.Store({
                 commit(ADD_TILE_DATA, buildTileData(data))
 
                 saveData(GLOBAL_STORE, data)
-                saveData(ADD_TILE_DATA, buildTileData(data))
+                saveData(TILE_STORE, buildTileData(data))
             })
         },
     },

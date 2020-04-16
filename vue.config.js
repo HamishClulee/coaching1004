@@ -22,4 +22,8 @@ module.exports = {
             openAnalyzer: false,
         },
     },
+    devServer: {
+        host: 'localhost',
+        port: '3000',
+    },
 }

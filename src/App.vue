@@ -16,12 +16,15 @@
 </template>
 
 <script>
-import { EventBus, MESSAGES } from './EventBus.js'
+import { EventBus, MESSAGES, FIVE_SECONDS, setUpMessages } from './EventBus.js'
 import adurotoast from './components/adurotoast'
 import navbar from './components/navbar'
 import globalstats from './components/globalstats'
 import countriestable from './components/countriestable'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
+import { ADD_TILE_DATA, ADD_GLOBAL } from './store'
+import { getData, doesDataExist, TILE_STORE, GLOBAL_STORE } from './storage'
+
 export default {
     name: 'App',
     components: {
@@ -42,23 +45,44 @@ export default {
         }
     },
     created() {
+
         this.init()
-        // this.$API.summary().then(res => {
-        //     this.global = res.data.Global
-        //     this.countries = res.data.Countries
-        // })
+
     },
     mounted() {
+
         EventBus.$on(MESSAGES, (payload) => {
-            this.showToast = payload.show
-            this.text = payload.text || ''
-            this.bgColor = payload.bgColor || ''
-            this.textColor = payload.textColor || ''
-            this.timeToLive = payload.timeToLive || 0
+            setUpMessages(payload, this)
         })
+
+        if (doesDataExist(TILE_STORE) && doesDataExist(GLOBAL_STORE)) {
+
+            this.ADD_TILE_DATA(getData(TILE_STORE))
+
+            this.ADD_GLOBAL(getData(GLOBAL_STORE))
+
+            EventBus.$emit(MESSAGES, {
+                showToast: true,
+                text: 'Serving stored data merging in API results',
+                bgColor: 'aduro-green',
+                textColor: '#FFF',
+                timeToLive: FIVE_SECONDS,
+            })
+
+        } else {
+            EventBus.$emit(MESSAGES, {
+                showToast: true,
+                text: 'No stored data, fetching from API',
+                bgColor: 'aduro-blue',
+                textColor: '#FFF',
+                timeToLive: FIVE_SECONDS,
+            })
+        }
+
     },
     methods: {
         ...mapActions(['init']),
+        ...mapMutations([ADD_TILE_DATA, ADD_GLOBAL]),
     },
 }
 </script>
