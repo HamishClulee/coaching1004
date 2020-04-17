@@ -1,10 +1,10 @@
 <template>
-    <div
+    <section
         class="aduro-toast-container"
         :class="bgColor"
         :style="{ 'color': textColor }"
     >{{ text }}
-    </div>
+    </section>
 </template>
   
 <script>

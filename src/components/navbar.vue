@@ -1,13 +1,16 @@
 <template>
     <nav class="navbar-container">
         <section class="navbar-right">
-            <div class="logo-container">
+            <div class="logo-container" @click="$router.push({ name: 'Home'})">
                 <img height="48" src="../assets/aduro-logo-r.svg" />
             </div>
             <h1 class="aduro-heading">CoronaVirusTracker</h1>
         </section>
         <section class="navbar-center"></section>
-        <section class="navbar-left"></section>
+        <section class="navbar-left">
+            <router-link :to="{ name: 'ChildParent'}">Child &amp; Parent</router-link>
+            <router-link :to="{ name: 'RouterAPI'}">Router API</router-link>
+        </section>
     </nav>
 </template>
 
@@ -30,6 +33,14 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+.navbar-left {
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 5px;
+    a {
+        margin-right: 15px;
+    }
 }
 .logo-container {
     padding: 5px;

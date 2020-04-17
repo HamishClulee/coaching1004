@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+// async routes
+const Home  = () => import('../views/Home.vue')
+const ChildParent = () => import('../views/ChildParent.vue')
+const RouterAPI = () => import('../views/RouterAPI.vue')
 
 Vue.use(VueRouter)
 
@@ -9,6 +13,16 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
+    },
+    {
+        path: '/child-parent-communication',
+        name: 'ChildParent',
+        component: ChildParent,
+    },
+    {
+        path: '/vue-router-api',
+        name: 'RouterAPI',
+        component: RouterAPI,
     },
     {
         path: '/about',

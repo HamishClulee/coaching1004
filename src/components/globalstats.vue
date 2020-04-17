@@ -40,7 +40,7 @@ export default {
 .stat-item {
     border-radius: 3px;
     margin: 2px;
-    width: 32.95%;
+    width: 32vw;
     padding: 20px 0;
     display: flex;
     justify-content: center;

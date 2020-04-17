@@ -1,11 +1,7 @@
 <template>
-    <div id="god-div">
+    <main id="god-div">
         
         <navbar></navbar>
-
-        <globalstats v-bind="{ global }"></globalstats>
-
-        <countriestable></countriestable>
 
         <transition name="slide-fade" mode="out-in">
             <adurotoast
@@ -13,8 +9,10 @@
                 v-bind="{ text, textColor, bgColor, timeToLive }"
             ></adurotoast>
         </transition>
-        
-    </div>
+
+        <router-view></router-view>
+
+    </main>
 </template>
 
 <script>
@@ -28,8 +26,6 @@ import { debounce } from './util'
 // components
 import adurotoast from './components/adurotoast'
 import navbar from './components/navbar'
-import globalstats from './components/globalstats'
-import countriestable from './components/countriestable'
 
 // useful cludge - Explain: used on line 89 ish eslint is wrong, Blame: Hamish
 // eslint-disable-next-line no-unused-vars
@@ -40,8 +36,6 @@ export default {
     components: {
         adurotoast,
         navbar,
-        globalstats,
-        countriestable,
     },
     data() {
         return {
@@ -58,7 +52,7 @@ export default {
     created() {
 
         // api fetching commence - vuex mapped action
-        this.init()
+        // this.init()
 
         // set state ui vars
         this.SET_WINDOW_SIZE()

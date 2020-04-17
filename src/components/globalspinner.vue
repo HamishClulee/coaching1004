@@ -1,10 +1,10 @@
 <template>
-    <div id="square5">
+    <section id="square5">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-    </div>
+    </section>
 </template>
 
 <script>
